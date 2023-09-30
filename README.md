@@ -43,10 +43,17 @@ Necessário ter docker instalado na sua máquina.
 
 ## 🔨 Funcionalidades do projeto
 
-* `Funcionalidade 1` - `Cadastro de Autores`: Nosso sistema precisa estar apto a cadastrar os autores associados ao livros publicados por eles. Para cadastrar um autor, devem ser informados seu e-mail, válido e único dentro do sistema. Seu nome e uma pequena biografia. Todos os campos são obrigatórios. O sistema também deve gravar a data em que o autor foi cadastrado no sistema.
+* `Funcionalidade 1` - `Obtem cadeia .PEM`: Realiza uma consulta no site, no qual obtem a cadeia do certificado no formato .PEM. Ao incluir a query `download=true` será feito o download do arquivo.
 
-* `Funcionalidade 2` - `Cadastro de categorias`: O sistema precisa agrupar os livros em categorias como ficção, filosofia, história, infantil. Para o cadastro de uma categoria no sistema, é preciso informar obrigatoriamente seu nome. A data em que a categoria foi cadastrada no sistema precisa ser gravada.
+* `Funcionalidade 2` - `Obtem informações do certificado`: A aplicação retornará algumas informações do certificado Base do site no qual foi realizado a consulta.  
+  * Retorno da pesquisa:
 
-* `Funcionalidade 3` - `Cadastro de livros`: Para cadastrar um livro na editora, precisamos informar seu título, isbn, resumo, sumário, número de páginas, autor, categoria e preço. O autor e categoria precisam estar previamente cadastrados no sistema. O isbn precisa estar no formato correto. O resumo não pode ter mais que 500 caracteres e o sumário é de tamanho livre. Todos os campos são obrigatórios.
-
-
+    ```json
+    {
+    "nome": "string",
+    "numeroSerie": "string",
+    "emissor": "string",
+    "validoNaoAntes": "string",
+    "validoNaoDepois": "string"
+    }
+    ```
