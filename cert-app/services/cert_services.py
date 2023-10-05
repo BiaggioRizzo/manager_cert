@@ -20,7 +20,7 @@ REGEX_TRATA_CERT_ROOT = (
     r"(?<=-----BEGIN CERTIFICATE-----)(.|\r|\n)*?(?=-----END CERTIFICATE-----)"
 )
 ENDPOINT_ROOT_CERT = "https://curl.se/ca/cacert.pem"
-CAMINHO_ARQUIVO_CERT_ROOT = "cacert.pem"
+CAMINHO_ARQUIVO_CERT_ROOT = "./cacert.pem"
 PORT = 443
 
 
@@ -41,7 +41,6 @@ def download_certs_root():
         else:
             with open("cacert.pem", "r") as file:
                 readfile = file.read()
-
             return readfile
 
 
@@ -95,6 +94,7 @@ def create_conection_ssl(host: str):
 
 def get_chain_cert(host: str, download: bool = False):
     readfile = download_certs_root()
+    print(readfile)
     certs_cadeia = create_conection_ssl(host).get_peer_cert_chain()
     certificate_chain = []
 
@@ -105,10 +105,9 @@ def get_chain_cert(host: str, download: bool = False):
                 serialization.Encoding.PEM
             )
             certificate_chain.insert(0, certificate_pem.decode().strip("\n"))
-
-            # for component in cert.get_subject().get_components():
-            #     print("Subject %s: %s" % (component))
-            # print("issuer:" + str(cert.get_issuer().get_components()[-1][-1]))
+            for component in cert.get_subject().get_components():
+                print("Subject %s: %s" % (component))
+            print("issuer:" + str(cert.get_issuer().get_components()[-1][-1]))
             root_cert_name = str(
                 cert.get_issuer().get_components()[-1][-1].decode())
 
@@ -116,6 +115,7 @@ def get_chain_cert(host: str, download: bool = False):
                 regex_extrai_cert_root = REGEX_PROCURA_CERT_ROOT.replace(
                     "[NOME_ROOT]", root_cert_name
                 )
+                print(regex_extrai_cert_root)
                 match_cert_regex = re.search(regex_extrai_cert_root, readfile)
                 root_certificate = trata_cert_root(
                     match_cert_regex.group().split("=")[-1].strip("\n")

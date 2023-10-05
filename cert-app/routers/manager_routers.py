@@ -46,6 +46,7 @@ async def cadeia_certificado(url_website:str, download:bool = False):
         # Converta cert para string, se necessário
             cert_str = cert.decode('utf-8') if isinstance(cert, bytes) else cert
             cache.set(url_website, str(cert_str))
+            response = cert_str
         else:
             response = cert
             print(type(response))
